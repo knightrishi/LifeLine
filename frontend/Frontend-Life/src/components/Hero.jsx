@@ -2,7 +2,7 @@ import hero1 from "../assets/hero1.png";
 
 function Hero() {
   return (
-    <div className="relative min-h-[60vh] flex items-center rounded-b-2xl rounded-t-2xl overflow-hidden">
+    <div className="relative min-h-[90vh] flex items-center rounded-b-2xl rounded-t-2xl overflow-hidden mt-0">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${hero1})` }}

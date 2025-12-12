@@ -2,7 +2,7 @@ import logo3 from "../assets/logo3.png"
 
 function Navbar(){
     return (
-       <nav className="w-full bg-[#0A1A2F] text-white px-12 py-4 flex mb-8 items-center rounded-b-2xl justify-between shadow-lg border-b border-white/10">
+       <nav className="w-full bg-[#0A1A2F]  text-white px-12 py-4 flex mb-4 items-center rounded-b-2xl justify-between shadow-lg border-b border-white/10 mt-0">
         <div className="text-2xl font-bold flex items-center gap-2">
             <span>
                 <img src={logo3} alt="Lifeline logo" className="h-15 w-20 opacity-90" />
@@ -11,7 +11,7 @@ function Navbar(){
               <h5>LIFE LINE</h5>
 </div>
           
-      <ul className="hidden md:flex gap-10 text-sm tracking-wide">
+      <ul className="hidden md:flex gap-10 text-lg  tracking-wide">
         <li className="cursor-pointer hover:text-gray-300">Features</li>
         <li className="cursor-pointer hover:text-gray-300">Impact</li>
         <li className="cursor-pointer hover:text-gray-300">Community</li>

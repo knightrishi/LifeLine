@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Hospital = require("./models/Hospital.js");
+const Hospital = require("../models/Hospital.js");
 
 async function main() {
   try {

@@ -1,6 +1,8 @@
 import logo3 from "../assets/logo3.png"
+import { useNavigate } from "react-router-dom";
 
 function Navbar(){
+  const navigate = useNavigate();
     return (
        <nav className="pt-4 bg-[#0A1A2F] w-screen text-white px-12 py-4 flex mb-2 items-cente justify-between shadow-lg border-b border-white/10 mt-0">
         <div className="text-2xl font-bold flex items-center gap-2">
@@ -17,7 +19,9 @@ function Navbar(){
         <li className="cursor-pointer hover:text-gray-300">Community</li>
         <li className="cursor-pointer hover:text-gray-300">Resources</li>
       </ul>
-        <button className="bg-yellow-600 px-4 py-2 rounded-md text-black font-semibold cursor-pointer">
+        <button
+         onClick={() => navigate("/login")}
+        className="bg-yellow-600 px-4 py-2 rounded-md text-black font-semibold cursor-pointer">
             Login/Sign up
             </button>
 

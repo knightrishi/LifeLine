@@ -4,7 +4,7 @@ import {Bell} from "lucide-react"
 import {Mail} from "lucide-react"
 const TopBar = () => {
   return (
-    <div className='bg-linear-to-br from-blue-100/60 to-blue-200/90 flex w-full items-center justify-between text-white h-16 rounded-2xl'>
+    <div className='bg-[#627ea3] flex w-full items-center justify-between text-white h-16 rounded-2xl'>
       
       <div className="relative w-96">
   <input
@@ -13,7 +13,7 @@ const TopBar = () => {
     className="
       w-full
       rounded-full
-      bg-white/60
+      bg-blue-100
       backdrop-blur-md
       py-2 pl-10 ml-48 pr-4
       text-sm

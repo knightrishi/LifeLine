@@ -23,7 +23,7 @@ const handleToggle = () => {
 };
 
     return(
-    <section className=" relative min-h-screen flex items-center justify-center bg-cyan-50">
+    <div className=" relative min-h-screen flex items-center justify-center bg-cyan-50">
         <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${sign})` }}
@@ -38,7 +38,7 @@ const handleToggle = () => {
           <input
             type="email"
             className="border rounded-lg px-3 py-2 text-white"
-            placeholder="you@example.com"
+            placeholder="you@ .com"
           />
         </div> 
 
@@ -77,7 +77,7 @@ const handleToggle = () => {
           Not Registered?Click Here!
         </p>
       </div>
-       </section>
+       </div>
     )
 
 }

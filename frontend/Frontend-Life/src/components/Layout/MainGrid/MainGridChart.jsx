@@ -31,9 +31,9 @@ const MainGridChart = () => {
           "#14B8A6", // Highlight Friday
           "#9BD5F5",
         ],
-        borderRadius: 20,   // rounded top bars
+        borderRadius: 10,   // rounded top bars
         borderSkipped: false,
-        barThickness: 30,
+        barThickness: 20,
       },
     ],
   };
@@ -59,7 +59,7 @@ const MainGridChart = () => {
   };
 
   return (
-  <div className="h-[180px]">
+  <div className="h-[190px]">
     <Bar data={data} options={options} />
   </div>
 );

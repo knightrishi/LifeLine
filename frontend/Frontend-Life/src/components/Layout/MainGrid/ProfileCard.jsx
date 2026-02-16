@@ -1,106 +1,64 @@
 import React from "react";
-import { HeartPulse } from "lucide-react";
-import { Syringe } from "lucide-react";
-import { Droplets } from "lucide-react";
-import { Calendar } from "lucide-react";
+import { HeartPulse, Syringe, Droplets, Calendar } from "lucide-react";
 
-const ProfileCard = () => {
+// Reusable component for the inner stat cards
+const StatCard = ({ icon: Icon, value, label }) => {
   return (
     <div
       className="
-        w-[800px]
-        bg-[#213b4e]/80
-        backdrop-blur-2xl
-        h-[250px]
-        border border-white/20
-        ml-16 mt-8 p-6
+        flex flex-col items-center justify-center
+        text-slate-700
+        border border-white/40
         rounded-2xl
-        flex flex-col
-        shadow-xl
+        h-32 w-36
+        backdrop-blur-md
+        bg-white/40
+        shadow-sm
+        hover:bg-white/60 hover:scale-105 hover:shadow-md
+        transition-all duration-300 cursor-pointer
       "
     >
-      {/* Title */}
-      <h4 className="font-medium text-white text-lg">
-        Patient's Donation History
-      </h4>
+      <Icon size={28} className="mb-2 text-cyan-600" />
+      <h4 className="text-2xl font-bold">{value}</h4>
+      <p className="text-sm text-slate-500 font-medium">{label}</p>
+    </div>
+  );
+};
 
-      <hr className="w-full border-t border-white/20 my-4" />
+const ProfileCard = () => {
+  return (
+    // A wrapper with a background is needed to see the glassmorphism effect
+    <div className="flex items-center justify-center bg-linear-to-br from-cyan-100 via-sky-200 to-cyan-100 p-4 h-[350px] w-[800px] ml-15 mt-9 rounded-2xl">
+      
+      {/* Main Glassmorphic Div */}
+      <div
+        className="
+          w-[750px]
+          h-[300px]
+          p-8
+          rounded-3xl
+          flex flex-col
+          backdrop-blur-2xl
+          bg-linear-to-br from-sky-100/50 to-sky-50/30
+          border border-white/50
+          shadow-xl shadow-sky-200/30
+        "
+      >
+        {/* Title */}
+        <h4 className="font-semibold text-slate-700 text-xl">
+          Patient's Donation History
+        </h4>
 
-      {/* Stats Section */}
-      <div className="flex justify-center items-center flex-1 gap-10">
-       
-       
-        <div
-          className="
-            flex flex-col items-center justify-center
-            text-white
-            border border-white/20
-            rounded-2xl
-            h-28 w-32
-            backdrop-blur-xl
-            bg-white/5
-          "
-        >
-          <HeartPulse size={28} className="mb-2" />
-          <h4 className="text-xl font-semibold">51</h4>
-          <p className="text-sm text-white/70">Lives Saved</p>
+        {/* Divider */}
+        <hr className="w-full border-t border-black/50 my-4" />
+
+        {/* Stats Section */}
+        <div className="flex justify-between items-center flex-1 gap-6">
+          <StatCard icon={HeartPulse} value="51" label="Lives Saved" />
+          <StatCard icon={Syringe} value="17" label="Times donated" />
+          <StatCard icon={Droplets} value="7.5L" label="Amount donated" />
+          <StatCard icon={Calendar} value="2021" label="Donor Since" />
         </div>
-
-       
-       
-        <div
-          className="
-            flex flex-col items-center justify-center
-            text-white
-            border border-white/20
-            rounded-2xl
-            h-28 w-32
-            backdrop-blur-xl
-            bg-white/5
-          "
-        >
-          <Syringe  size={28} className="mb-2" />
-          <h4 className="text-xl font-semibold">17</h4>
-          <p className="text-sm text-white/70">Times donated</p>
-        </div>
-       
-       
-        <div
-          className="
-            flex flex-col items-center justify-center
-            text-white
-            border border-white/20
-            rounded-2xl
-            h-28 w-32
-            backdrop-blur-xl
-            bg-white/5
-          "
-        >
-          <Droplets   size={28} className="mb-2" />
-          <h4 className="text-xl font-semibold">7.5L</h4>
-          <p className="text-sm text-white/70">Amount donated</p>
-        </div>
-
-
-        <div
-          className="
-            flex flex-col items-center justify-center
-            text-white
-            border border-white/20
-            rounded-2xl
-            h-28 w-32
-            backdrop-blur-xl
-            bg-white/5
-          "
-        >
-          <Calendar   size={28} className="mb-2" />
-          <h4 className="text-xl font-semibold">2021</h4>
-          <p className="text-sm text-white/70">Donor Since</p>
-        </div>
-
-
-
-
       </div>
     </div>
   );

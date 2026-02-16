@@ -1,40 +1,51 @@
 import React from 'react'
-import {LayoutDashboard} from 'lucide-react'
-import {Hospital} from 'lucide-react'
-import {CalendarHeart } from 'lucide-react'
-import {Trophy } from 'lucide-react'
-import {Siren  } from 'lucide-react'
+import { LayoutDashboard, Hospital, CalendarHeart, Trophy, Siren } from 'lucide-react'
 
 const Sidebar = () => {
+  // Common style for the icons to keep code clean
+  const iconStyle = "flex items-center justify-center w-12 h-12 text-slate-300 rounded-xl transition-all duration-400 hover:bg-white hover:text-[#0A1A2F] hover:shadow-lg hover:scale-110 cursor-pointer";
+
   return (
-   <div className="
-  bg-[#0A1A2F]
-  w-30
-  h-[calc(100vh-2.5rem)]
-  fixed
-  top-6
-  left-6
-  flex flex-col
-  items-center
-  justify-center
-  gap-6
-  rounded-2xl
-    z-10
-">
-    <span className=
-    'flex items-center justify-center w-12 h-12 text-white rounded-full transition hover:bg-white hover:text-teal-900'><LayoutDashboard /></span>  
+    <div 
+      className="
+        fixed
+        top-4
+        left-6
+        w-24
+        h-[calc(100vh-2rem)]
+        rounded-3xl
+        flex flex-col
+        items-center
+        justify-center
+        gap-8
+        z-50
+        
+        /* DARK GLASSMORPHISM STYLES */
+       bg-[#0f172a]/90        /* Dark Blue with 70% Opacity */
+        backdrop-blur-xl       /* Heavy Blur */
+         border-white/10 /* Subtle light border for edge definition */
+        shadow-2xl shadow-black/20
+      "
+    >
+      <span className={iconStyle}>
+        <LayoutDashboard size={24} />
+      </span>
 
-    <span className=
-    'flex items-center justify-center w-12 h-12 text-white rounded-full transition hover:bg-white hover:text-teal-900'><Hospital /></span>  
+      <span className={iconStyle}>
+        <Hospital size={24} />
+      </span>
 
-    <span className=
-    'flex items-center justify-center w-12 h-12 text-white rounded-full transition hover:bg-white hover:text-teal-900'><CalendarHeart /></span>  
+      <span className={iconStyle}>
+        <CalendarHeart size={24} />
+      </span>
 
-    <span className=
-    'flex items-center justify-center w-12 h-12 text-white rounded-full transition hover:bg-white hover:text-teal-900'><Trophy /></span>  
+      <span className={iconStyle}>
+        <Trophy size={24} />
+      </span>
 
-    <span className=
-    'flex items-center justify-center w-12 h-12 text-white rounded-full transition hover:bg-white hover:text-teal-900'><Siren /></span>  
+      <span className={iconStyle}>
+        <Siren size={24} />
+      </span>
     </div>
   )
 }

@@ -1,19 +1,26 @@
 import React from 'react'
-
+import {Crown} from 'lucide-react'
 const LeaderCard = () => {
   return (
-    <div  className="
-        w-[295px]
-        bg-[#213b4e]/80
-        backdrop-blur-2xl
-        h-[500px]
-        border border-white/20
-        mr-10 mt-28 p-6 ml-6
-        rounded-2xl
-        flex flex-col
-        shadow-xl
-      ">
-      
+    <div className="flex items-center justify-center bg-linear-to-br from-cyan-100 via-sky-200 to-cyan-100 p-4 h-[550px] w-[300px] ml-4 mr-10 mt-25 rounded-2xl">
+    <div
+        className="
+          w-[250px]
+          h-[500px]
+          p-8
+          rounded-3xl
+          flex flex-col
+          backdrop-blur-2xl
+          bg-linear-to-br from-sky-100/50 to-sky-50/30
+          border border-white/50
+          shadow-xl shadow-sky-200/30
+        "
+      >
+       <h4 className="font-semibold text-slate-700 text-xl gap-3 flex flex row">Leaderboard <Crown /></h4>
+
+         <hr className="w-full border-t border-black/50 my-4" />
+
+    </div>
     </div>
   )
 }

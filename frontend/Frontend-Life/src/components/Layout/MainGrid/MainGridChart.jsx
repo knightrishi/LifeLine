@@ -23,13 +23,13 @@ const MainGridChart = () => {
       {
         data: [35, 30, 40, 32, 28, 60, 30],
         backgroundColor: [
-          "#9BD5F5",
-          "#9BD5F5",
-          "#9BD5F5",
-          "#9BD5F5",
-          "#9BD5F5",
-          "#14B8A6", // Highlight Friday
-          "#9BD5F5",
+         "#60A5FA", // Darker Blue (Blue-400)
+          "#60A5FA",
+          "#60A5FA",
+          "#60A5FA",
+          "#60A5FA",
+          "#0D9488", // Darker Teal Highlight (Teal-600)
+          "#60A5FA",
         ],
         borderRadius: 10,   // rounded top bars
         borderSkipped: false,
@@ -46,20 +46,20 @@ const MainGridChart = () => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { color: "#ccc" },
+        ticks: { color: "#000" },
       },
       y: {
         beginAtZero: true,
         grid: {
-          color: "rgba(255,255,255,0.1)",
+          color: "rgba(255,255,255,0.7)",
         },
-        ticks: { color: "#ccc" },
+        ticks: { color: "#000" },
       },
     },
   };
 
   return (
-  <div className="h-[190px]">
+  <div className="h-[180px]">
     <Bar data={data} options={options} />
   </div>
 );

@@ -101,7 +101,7 @@ const ChartSection = () => {
         </div>
 
         {/* Right Side - Chart Wrapper */}
-        <div className="w-[500px] h-[150px] text-black">
+        <div className="w-[500px] h-[170px] text-black">
           <MainGridChart />
         </div>
       </div>

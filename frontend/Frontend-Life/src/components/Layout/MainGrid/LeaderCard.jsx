@@ -16,7 +16,7 @@ const LeaderCard = () => {
           shadow-xl shadow-sky-200/30
         "
       >
-       <h4 className="font-semibold text-slate-700 text-xl gap-3 flex flex row">Leaderboard <Crown /></h4>
+       <h4 className="font-semibold text-slate-700 text-xl gap-3  flex row">Leaderboard <Crown /></h4>
 
          <hr className="w-full border-t border-black/50 my-4" />
 

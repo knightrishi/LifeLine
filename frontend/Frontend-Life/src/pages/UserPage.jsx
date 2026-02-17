@@ -11,18 +11,22 @@ function UserPage(){
   rounded-3xl
   overflow-hidden
   grid
-  grid-cols-[auto_1fr_300px]
+  grid-cols-[auto_1fr_300px] z-10
 ">
-  <Sidebar />
+  <div className="fixed left-0 top-0 h-screen z-50 w-24">
+        <Sidebar />
+      </div>
 
-  {/* Main Content */}
-  <div className="flex flex-col gap-2 ml-5 mt-1">
-    <TopBar />
+ <div className="fixed top-0 float left-19 right-0 z-40 ml-6 mt-2">
+        <TopBar />
+      </div>
+
+      <div className="mt-24 ml-5">
     <MainGrid />
   </div>
 
   {/* Right Column */}
-  <div className="pr-6">
+  <div className="pr-6 mt-9">
     <LeaderCard />
   </div>
 

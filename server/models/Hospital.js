@@ -10,7 +10,7 @@ const hospitalSchema = new mongoose.Schema({
     },
     name: {               
         type: String,
-        minlength: 5,
+        minlength: 3,
         maxlength: 50,
         required: true,
     },
@@ -45,6 +45,19 @@ const hospitalSchema = new mongoose.Schema({
         type: String,
         maxlength: 150,
     },
+    //AUTH
+        email:{
+        type:String,
+        required:true,
+        minlength:5,
+        unique:true,
+        lowercase:true
+        },
+        password:{
+            type:String,
+            minlength:6,
+            required:true
+        },
 
     //Address
     address: {
@@ -77,15 +90,20 @@ const hospitalSchema = new mongoose.Schema({
         maxlength: 50,
         required: true
     },
-    coordinates: {
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true }
-    },
+   location: {
+        type: { type: String, default: "Point" },
+        coordinates: [Number], // [longitude, latitude]
+        },
     image: {
         type: String,
         required: true
     },
-
+    status: { 
+        type: Number, 
+        enum: [0, 1, 2], 
+        default: 0 
+    }, // 0=Inactive, 1=Active, 2=Suspended
+    
     // Contact info
     phoneNo1: {
         type: String,
@@ -96,11 +114,7 @@ const hospitalSchema = new mongoose.Schema({
         type: String,
         maxlength: 15,
     },
-    email: {
-        type: String,
-        maxlength: 100,
-        required: true,
-    },
+  
     totalEmp: {
         type: Number,
         max: 1000000,

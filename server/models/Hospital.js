@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const hospitalSchema = new mongoose.Schema({
     hospitalID: {         
@@ -51,7 +52,9 @@ const hospitalSchema = new mongoose.Schema({
         required:true,
         minlength:5,
         unique:true,
-        lowercase:true
+        lowercase:true,
+        trim:true,
+        match:[/^\S+@\S+\.\S+$/, "Invalid email format"],
         },
         password:{
             type:String,
@@ -78,7 +81,8 @@ const hospitalSchema = new mongoose.Schema({
         type: String,
         minlength: 6,
         maxlength: 6,
-        required: true
+        required: true,
+        match:     [/^\d{6}$/, "Pincode must be 6 digits"],
     },
     district: {
         type: String,
@@ -91,9 +95,16 @@ const hospitalSchema = new mongoose.Schema({
         required: true
     },
    location: {
-        type: { type: String, default: "Point" },
-        coordinates: [Number], // [longitude, latitude]
-        },
+      type: {
+        type:    String,
+        enum:    ["Point"],
+        default: "Point",
+      },
+      coordinates: {
+        type:    [Number], // [longitude, latitude]
+        default: undefined,
+      },
+    },
     image: {
         type: String,
         required: true
@@ -118,14 +129,39 @@ const hospitalSchema = new mongoose.Schema({
     totalEmp: {
         type: Number,
         max: 1000000,
+        min:0,
     },
     reviews: [{
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        rating: { type: Number, min: 1, max: 5 },
-        comment: { type: String }
+        userId: { 
+            type: mongoose.Schema.Types.ObjectId,
+             ref: "User",
+             required:true, 
+            },
+        rating: { 
+            type: Number,
+             min: 1,
+             max: 5 ,
+             required:true,
+            },
+        comment: { 
+            type: String,
+            maxlength:500,
+            trim:true,
+             }
     }],
 
+},
+{timestamps:true}
+);
+
+hospitalSchema.pre("save",async function(next){
+    if(!this.isModified("password")) return next();
+    this.password=await bcrypt.hash(this.password, 10);
+    next();
 });
+
+// ── Geo index for location-based Hospital search ─────
+hospitalSchema.index({location:"2dsphere"});
 
 const Hospital = mongoose.model("Hospital", hospitalSchema);
 module.exports = Hospital;

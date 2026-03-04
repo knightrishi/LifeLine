@@ -1,12 +1,22 @@
 const mongoose = require("mongoose");
+const bcrypt=require("bcrypt")
 
 const employeeSchema = new mongoose.Schema({
     empId: {
-        type: String,
-        maxlength: 30,
-        required: true,
-        unique: true
+       type:String, 
+    minlength: 4,
+    maxlength: 30, 
+    match: [/^[A-Z0-9\-]+$/, "Invalid employee ID format"],
+    required: true, 
+    unique: true,
+    uppercase: true,
+    trim:  true,
     },
+    hospitalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Hospital",
+    required: true,
+},
     name: {
         type: String,
         maxlength: 50,
@@ -36,6 +46,13 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         maxlength: 100,
         required: true,
+        unique:true,
+        match:[/^\S+@\S+\.\S+$/, "Invalid email format"],
+    },
+    password:{
+        type:String,
+        minlength:8,
+        required:true,
     },
     workLocation: {
         type: String,
@@ -71,6 +88,16 @@ const employeeSchema = new mongoose.Schema({
         default: Date.now
     },
 });
+
+employeeSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+})
+
+employeeSchema.methods.comparePassword = async function (candidatePassword) {
+    return bcrypt.compare(candidatePassword, this.password);
+};
 
 const EmployeeDetail = mongoose.model("EmployeeDetail", employeeSchema);
 module.exports = EmployeeDetail;

@@ -10,7 +10,7 @@ const donorSchema = new mongoose.Schema({
     bloodGroup: { type: String, enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], required: true },
     
     // ── Auth ──────────────────────────────────────
-    email: { type: String, maxlength: 100, required: true, unique: true, lowercase: true },
+    email: { type: String, maxlength: 100, required: true, unique: true, lowercase: true,match:[/^\S+@\S+\.\S+$/, "Invalid email format"], },
     password: { type: String, required: true, minlength: 6 },
 
     gender: { type: String, enum: ["M", "F", "O"], required: true },

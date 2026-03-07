@@ -42,11 +42,13 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         maxlength: 15,
     },
+    //AUTH
     email: {
         type: String,
         maxlength: 100,
         required: true,
         unique:true,
+        lowercase:true,
         match:[/^\S+@\S+\.\S+$/, "Invalid email format"],
     },
     password:{
@@ -87,7 +89,7 @@ const employeeSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-});
+},{timestamps:true});
 
 employeeSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();

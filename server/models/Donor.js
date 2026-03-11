@@ -29,9 +29,16 @@ const donorSchema = new mongoose.Schema({
 
     // ── Location (for Emergency Circle Alert) ─────
     location: {
-        type: { type: String, default: "Point" },
-        coordinates: [Number], // [longitude, latitude]
+    type: {
+        type:    String,
+        enum:    ["Point"],
+        default: "Point",
     },
+    coordinates: {
+        type:    [Number],
+        default: undefined,
+    },
+},
 
     image: { type: String, required: true },
     continueDonation: { type: String, maxlength: 1 }, // Y/N

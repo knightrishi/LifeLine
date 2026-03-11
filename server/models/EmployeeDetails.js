@@ -21,6 +21,7 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         maxlength: 50,
         required: true,
+        trim:true
     },
     age: {
         type: Number,
@@ -60,11 +61,13 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         maxlength: 100,
         required: true,
+        trim:true
     },
     designation: {
         type: String,
         maxlength: 50,
         required: true,
+        trim:true
     },
     image: {
         type: String,
@@ -87,7 +90,7 @@ const employeeSchema = new mongoose.Schema({
     },
     joinedOn: {
         type: Date,
-        default: Date.now
+
     },
 },{timestamps:true});
 

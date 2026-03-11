@@ -1,13 +1,17 @@
 const mongoose = require("mongoose");
 
 const requestSchema = new mongoose.Schema({
-    requestBodyID: {
-        type: mongoose.Schema.Types.ObjectId,
-    },
+    
     requestedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "Hospital", 
+        required: true 
     },
+    requestedByEmp:  { 
+        type: mongoose.Schema.Types.ObjectId,
+         ref: "EmployeeDetail",
+          required: true
+         },
     requiredComponent: {
         type: String,
         enum: ["Whole Blood", "Plasma", "Platelets", "RBC", "Other"],
@@ -18,22 +22,30 @@ const requestSchema = new mongoose.Schema({
         enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
         required: true,
     },
-    time: {
+    requestedAt: {
         type: Date,
         default: Date.now
     },
-    date: {
+    neededBy: {
         type: Date,
-        default: Date.now
+       required:true,
     },
+    fulfilledAt: { type: Date }, 
+
     requestedQuantity: {
         type: Number,
         required: true,
-        min: 0
+        min: 1,
     },
     fullfilledQuantity: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0
+    },
+    unitType: {
+        type:String,
+        enum:["ml", "units", "bags"],
+        default: "units",
     },
     urgencyLevel: {
         type: Number,
@@ -51,10 +63,17 @@ const requestSchema = new mongoose.Schema({
         maxlength: 150,
         required: true,
     },
-    coordinates: {
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true }
+   location: {
+    type: {
+        type:    String,
+        enum:    ["Point"],
+        default: "Point",
     },
+    coordinates: {
+        type:    [Number],
+        default: undefined,
+    },
+},
     rejectionReason: {
         type: String,
         maxlength: 150,
@@ -67,7 +86,16 @@ const requestSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Hospital"
         },
+        bloodBankId: { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "BloodBank" 
+        },
+        productId:   { 
+            type: mongoose.Schema.Types.ObjectId,
+             ref: "BloodBankInventory" 
+            },
 });
 
+requestSchema.index({ location: "2dsphere" });
 const RequestLog = mongoose.model("RequestLog", requestSchema);
 module.exports = RequestLog;

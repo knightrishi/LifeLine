@@ -156,6 +156,7 @@ bloodBankSchema.methods.comparePassword = async function (candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 };
 
+bloodBankSchema.index({ location: "2dsphere" })
 const BloodBank = mongoose.model("BloodBank",bloodBankSchema);
 
 module.exports = BloodBank;

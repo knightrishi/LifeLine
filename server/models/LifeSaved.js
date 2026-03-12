@@ -1,50 +1,57 @@
-const mongoose = require("mongoose");
-
 const lifeSchema = new mongoose.Schema({
-    donorId: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Donor",
+    donorId: {
+        type:     mongoose.Schema.Types.ObjectId,
+        ref:      "Donor",
+        required: true,
+        unique:   true,  
+    },
+    bloodGroup: {
+        type:     String,
+        enum:     ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
         required: true,
     },
-    donorName: {
-        type: String,
-        maxlength: 50,
-        required: true,
-    },
-    quantityDonated: { 
-        type: Number,
-        required: true,
+    totalDonationCount: { 
+        type: Number, 
+        default: 0, 
         min: 0
-    },
-    lifeSaved: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    startYear: {
-        type: String,
-        maxlength: 4,
-        required: true,
-    },
-    presentYear: { 
-        type: String,
-        maxlength: 4,
-        required: true,
-    },
-    totalDonationCount: {
-        type: Number,
-        default: 0
-    },
-    remarks: {
-        type: String,
-        maxlength: 150
-    },
+     },
+    totalUnitsGiven:    { 
+        type: Number, 
+        default: 0,
+         min: 0 
+        },
+    lifeSaved:          {
+         type: Number, 
+         default: 0,
+          min: 0 
+        }, // totalUnitsGiven * 3
+    startYear:          { 
+        type: Number, 
+        min: 1900,
+         max: new Date().getFullYear()
+         },
+    lastDonationDate:   { 
+        type: Date
+     },
+    badgesEarned:       { 
+        type: [String], 
+        default: []
+     },
+    remarks:            { 
+        type: String, 
+        maxlength: 150,
+         trim: true 
+        },
     status: {
-        type: String,
-        enum: ["Active", "Inactive", "Verified"],
+        type:    String,
+        enum:    ["Active", "Inactive", "Verified"],
         default: "Active"
     },
-});
+}, { timestamps: true });
+
+lifeSchema.index({ donorId: 1 });
+lifeSchema.index({ bloodGroup: 1, lifeSaved: -1 }); // ← leaderboard
+lifeSchema.index({ totalDonationCount: -1 });        // ← top donors
 
 const LifeSave = mongoose.model("LifeSave", lifeSchema);
 module.exports = LifeSave;

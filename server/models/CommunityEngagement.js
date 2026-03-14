@@ -11,11 +11,17 @@ const communitySchema = new mongoose.Schema({
         maxlength: 100,
         required: true
     },
-    location: { 
-        type: String,
-        maxlength: 150,
-        required: true
+      location: {
+    type: {
+        type:    String,
+        enum:    ["Point"],
+        default: "Point",
     },
+    coordinates: {
+        type:    [Number], // [longitude, latitude]
+        default: undefined,
+    },
+},
     targetGroup: {
         type: String,
         maxlength: 100,

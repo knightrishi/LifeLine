@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const communitySchema = new mongoose.Schema({
+   hospitalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:  "Hospital",
+},
     date: { 
         type: Date,
         required: true,
@@ -54,12 +58,19 @@ const communitySchema = new mongoose.Schema({
         enum: ["Planned", "Ongoing", "Completed", "Cancelled"],
         default: "Planned"
     },
+    organizedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:  "CommunityEngagement", // ← which circle hosted this event
+},
+
     sponsors: [{
         name: String,
         contributionType: String,
         amount: Number
     }],
-});
+},{timestamps:true});
+
+communitySchema.index({location:"2dsphere"});
 
 const CommunityEngagement = mongoose.model("CommunityEngagement", communitySchema);
 module.exports = CommunityEngagement;

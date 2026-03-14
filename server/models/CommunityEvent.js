@@ -1,76 +1,88 @@
 const mongoose = require("mongoose");
 
-const communitySchema = new mongoose.Schema({
-   hospitalId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref:  "Hospital",
-},
-    date: { 
-        type: Date,
-        required: true,
-        default: Date.now
+const communitySchema = new mongoose.Schema(
+  {
+    hospitalId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Hospital",
     },
-    event: { 
+    date: {
+      type: Date,
+      required: true,
+      default: Date.now,
+    },
+    event: {
+      type: String,
+      maxlength: 100,
+      required: true,
+    },
+    location: {
+      type: {
         type: String,
-        maxlength: 100,
-        required: true
-    },
-      location: {
-    type: {
-        type:    String,
-        enum:    ["Point"],
+        enum: ["Point"],
         default: "Point",
-    },
-    coordinates: {
-        type:    [Number], // [longitude, latitude]
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
         default: undefined,
+      },
     },
-},
     targetGroup: {
-        type: String,
-        maxlength: 100,
-        required: true
+      type: String,
+      maxlength: 100,
+      required: true,
     },
-    partner: { 
-        type: String,
-        maxlength: 100
+    partner: {
+      type: String,
+      maxlength: 100,
     },
     attendees: {
-        type: Number,
-        min: 0,
-        default: 0
+      type: Number,
+      min: 0,
+      default: 0,
     },
     bloodUnit: {
-        type: Number,
-        min: 0,
-        default: 0
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    feedback: { 
-        type: String,
-        maxlength: 300
+    feedback: {
+      type: String,
+      maxlength: 300,
     },
     followUpAction: {
-        type: String,
-        maxlength: 300
+      type: String,
+      maxlength: 300,
     },
-    status: { 
-        type: String,
-        enum: ["Planned", "Ongoing", "Completed", "Cancelled"],
-        default: "Planned"
+    status: {
+      type: String,
+      enum: ["Planned", "Ongoing", "Completed", "Cancelled"],
+      default: "Planned",
     },
     organizedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref:  "CommunityEngagement", // ← which circle hosted this event
-},
-
-    sponsors: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CommunityEngagement", // ← which circle hosted this event
+    },
+    totalLifeSaved: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    sponsors: [
+      {
         name: String,
         contributionType: String,
-        amount: Number
-    }],
-},{timestamps:true});
+        amount: Number,
+      },
+    ],
+  },
+  { timestamps: true },
+);
 
-communitySchema.index({location:"2dsphere"});
+communitySchema.index({ location: "2dsphere" });
 
-const CommunityEngagement = mongoose.model("CommunityEngagement", communitySchema);
-module.exports = CommunityEngagement;
+const CommunityEvent = mongoose.model(
+  "CommunityEngagement",
+  communitySchema,
+);
+module.exports = CommunityEvent;

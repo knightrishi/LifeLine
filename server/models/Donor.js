@@ -32,17 +32,18 @@ const donorSchema = new mongoose.Schema({
     type: {
         type:    String,
         enum:    ["Point"],
-        default: "Point",
+       // default: "Point",
     },
     coordinates: {
         type:    [Number],
         default: undefined,
+        
     },
 },
 
     image: { type: String, required: true },
-    continueDonation: { type: String, maxlength: 1 }, // Y/N
-    availableOnEmg: { type: String, maxlength: 1 },   // Y/N
+    continueDonation: { type: Boolean, default: false },
+availableOnEmg:   { type: Boolean, default: false },
     
     status: { type: Number, enum: [0, 1, 2], default: 0 }, // 0=Inactive, 1=Active, 2=Suspended
     badgesEarned: { type: [String] },
@@ -80,7 +81,10 @@ donorSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // ── Geo index for location-based donor search ─────
-donorSchema.index({ location: "2dsphere" });
+donorSchema.index(
+    { "location.coordinates": "2dsphere" },
+    { sparse: true }
+);
 
 const Donor = mongoose.model("Donor", donorSchema);
 module.exports = Donor;

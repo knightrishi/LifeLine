@@ -1,11 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const connectDB = require('./config/db.js');
 
-dotenv.config();
+const donorAuthRoutes = require("./routes/auth/donor.auth.js");
+
 connectDB();
 
 const app=express();
@@ -23,6 +25,8 @@ app.get("/", (req,res) => {
     version: "1.0.0",
     })
 })
+
+app.use("/api/auth/donor", donorAuthRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

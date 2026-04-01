@@ -69,16 +69,29 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+      // 1:Validate
 
-    const donor = await Donor.findOne({ email });
-    if (!donor) {
-      return res.status(404).json({ message: "User do not exist" });
+      if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
     }
-    const isMatch = await donor.matchPassword(password);
 
-    if (!isMatch) {
-      return res.status(401).json({ message: "Password is wrong" });
+    //2 Normalise
+    const normalizedEmail = email.toLowerCase();
+    //3.FInd user
+
+    const donor = await Donor.findOne({email: normalizedEmail });
+    if (!donor || !(await donor.matchPassword(password))) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
+    
+
+    
 
     const token = generateToken(donor._id, "Donor", "Donor");
     const { password: _, ...donorData } = donor.toObject();

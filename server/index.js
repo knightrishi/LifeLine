@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const connectDB = require('./config/db.js');
 
 const donorAuthRoutes = require("./routes/auth/donor.auth.js");
+const hospitalAuthRoutes = require("./routes/auth/hospital.auth.js")
 
 connectDB();
 
@@ -27,6 +28,7 @@ app.get("/", (req,res) => {
 })
 
 app.use("/api/auth/donor", donorAuthRoutes);
+app.use("/api/auth/hospital", hospitalAuthRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

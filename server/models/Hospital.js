@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const hospitalSchema = new mongoose.Schema({
     hospitalID: {         
@@ -23,12 +23,12 @@ const hospitalSchema = new mongoose.Schema({
     type: {              
         type: String,
         enum: ["General", "Multi-specialty", "Super-specialty", "Clinic"],
-        required: true
+       // required: true
     },
     ownership: {         
         type: String,
         maxlength: 50,
-        required: true,
+       // required: true,
     },
     licence: {            
         type: String,
@@ -159,6 +159,13 @@ hospitalSchema.pre("save",async function(next){
     this.password=await bcrypt.hash(this.password, 10);
     next();
 });
+
+
+// compare password
+hospitalSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
 
 // ── Geo index for location-based Hospital search ─────
 hospitalSchema.index({location:"2dsphere"});

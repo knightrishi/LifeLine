@@ -5,9 +5,10 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const connectDB = require('./config/db.js');
-
+const employeeAuthRoutes = require("./routes/auth/employee.auth.js")
 const donorAuthRoutes = require("./routes/auth/donor.auth.js");
 const hospitalAuthRoutes = require("./routes/auth/hospital.auth.js")
+const bloodbankAuthRoutes = require("./routes/auth/bloodbank.auth.js")
 
 connectDB();
 
@@ -29,7 +30,8 @@ app.get("/", (req,res) => {
 
 app.use("/api/auth/donor", donorAuthRoutes);
 app.use("/api/auth/hospital", hospitalAuthRoutes);
-
+app.use("/api/auth/employee", employeeAuthRoutes)
+app.use("/api/auth/bloodbank", bloodbankAuthRoutes)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.statusCode || 500).json({

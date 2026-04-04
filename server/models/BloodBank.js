@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt=require('bcrypt')
+const bcrypt=require('bcryptjs')
 const bloodBankSchema = new mongoose.Schema({
     bloodBankID: {      
         type: String,
@@ -9,10 +9,10 @@ const bloodBankSchema = new mongoose.Schema({
         unique: true
     },
     // ✅ Add this
-hospitalId: {
+    hospitalId: {
     type:     mongoose.Schema.Types.ObjectId,
     ref:      "Hospital",
-    required: true,
+ //   required: true,
 },
     name: {               
         type: String,
@@ -152,7 +152,7 @@ bloodBankSchema.path("reviews").validate(function (reviews) {
     return ids.length === new Set(ids).size;
 }, "A user can only submit one review");
 
-bloodBankSchema.methods.comparePassword = async function (candidatePassword) {
+bloodBankSchema.methods.matchPassword = async function (candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 };
 

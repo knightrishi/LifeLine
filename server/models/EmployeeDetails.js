@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt=require("bcrypt")
+const bcrypt=require("bcryptjs")
 
 const employeeSchema = new mongoose.Schema({
     empId: {
@@ -100,7 +100,7 @@ employeeSchema.pre("save", async function (next) {
     next();
 })
 
-employeeSchema.methods.comparePassword = async function (candidatePassword) {
+employeeSchema.methods.matchPassword = async function (candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 };
 

@@ -148,3 +148,146 @@ router.get(
   }
 );
 
+router.put(
+  '/:id',
+  verifyToken,
+  roleGuard(["Admin", "Hospital"]),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status, fulfilledQuantity } = req.body;
+
+    //   //  Validate ID
+    //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Invalid request ID",
+    //     });
+    //   }
+
+      const request = await RequestLog.findById(id);
+
+      if (!request) {
+        return res.status(404).json({
+          success: false,
+          message: "Request not found",
+        });
+      }
+
+      // Ownership check
+      if (
+        req.user.role === "Hospital" &&
+        request.requestedBy.toString() !== req.user.id
+      ) {
+        return res.status(403).json({
+          success: false,
+          message: "Not authorized",
+        });
+      }
+
+      //Status transition validation
+      const validTransitions = {
+        Pending: ["Approved", "Rejected", "Cancelled"],
+        Approved: ["Partially Fulfilled", "Fulfilled", "Cancelled"],
+        "Partially Fulfilled": ["Fulfilled"],
+      };
+
+      if (status && !validTransitions[request.status]?.includes(status)) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid status transition from ${request.status} to ${status}`,
+        });
+      }
+
+      //  Update fields
+      if (status) request.status = status;
+
+      if (fulfilledQuantity !== undefined) {
+        request.fullfilledQuantity = fulfilledQuantity;
+
+        if (fulfilledQuantity >= request.requestedQuantity) {
+          request.status = "Fulfilled";
+          request.fulfilledAt = new Date();
+        } else if (fulfilledQuantity > 0) {
+          request.status = "Partially Fulfilled";
+        }
+      }
+
+      await request.save();
+
+      res.status(200).json({
+        success: true,
+        data: request,
+      });
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+);
+
+router.delete(
+  '/:id',
+  verifyToken,
+  roleGuard(["Admin", "Hospital"]),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+    //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Invalid request ID",
+    //     });
+    //   }
+
+      const request = await RequestLog.findById(id);
+
+      if (!request) {
+        return res.status(404).json({
+          success: false,
+          message: "Request not found",
+        });
+      }
+
+      //  Ownership check
+      if (
+        req.user.role === "Hospital" &&
+        request.requestedBy.toString() !== req.user.id
+      ) {
+        return res.status(403).json({
+          success: false,
+          message: "Not authorized",
+        });
+      }
+
+      //  Already cancelled
+      if (request.status === "Cancelled") {
+        return res.status(400).json({
+          success: false,
+          message: "Request already cancelled",
+        });
+      }
+
+      request.status = "Cancelled";
+      await request.save();
+
+      res.status(200).json({
+        success: true,
+        message: "Request cancelled successfully",
+        data: request,
+      });
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+);

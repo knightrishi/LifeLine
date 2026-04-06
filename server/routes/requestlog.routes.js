@@ -59,5 +59,92 @@ router.post(
       });
     }
   },
+);router.get(
+  "/",
+  verifyToken,
+  roleGuard(["Admin", "Hospital"]),
+  async (req, res) => {
+    try {
+      let query = {};
+
+      //  Role-based filtering
+      if (req.user.role === "Hospital") {
+        query.requestedBy = req.user.id;
+      }
+
+      //  Optional filters
+      const { status, bloodType } = req.query;
+
+      if (status) query.status = status;
+      if (bloodType) query.requiredBloodType = bloodType;
+
+      const requests = await RequestLog.find(query).sort({ createdAt: -1 });
+
+      res.status(200).json({
+        success: true,
+        count: requests.length,
+        data: requests,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  },
+)
+
+
+router.get(
+  '/:id',
+  verifyToken,
+  roleGuard(["Admin", "Hospital"]),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+    //   //  Validate ID format (important)
+    //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Invalid request ID",
+    //     });
+    //   }
+
+      const request = await RequestLog.findById(id);
+
+      //  Not found
+      if (!request) {
+        return res.status(404).json({
+          success: false,
+          message: "Request not found",
+        });
+      }
+
+      //  Ownership check
+      if (
+        req.user.role === "Hospital" &&
+        request.requestedBy.toString() !== req.user.id
+      ) {
+        return res.status(403).json({
+          success: false,
+          message: "Not authorized to view this request",
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: request,
+      });
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
 );
 

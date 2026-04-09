@@ -3,7 +3,7 @@ const router = express.Router();
 const RequestLog = require("../models/RequestLog");
 const verifyToken = require("../middleware/verifyToken");
 const roleGuard = require("../middleware/roleGuard");
-
+const matchService = require("../services/matchService");
 router.post(
   "/",
   verifyToken,
@@ -47,9 +47,12 @@ router.post(
         neededBy,
       });
 
+      const matchedDonors = await matchService(request);
+
       res.status(201).json({
         success: true,
         data: request,
+        matchedDonors: matchedDonors,
       });
     } catch (err) {
       console.error(err);
@@ -59,7 +62,8 @@ router.post(
       });
     }
   },
-);router.get(
+);
+router.get(
   "/",
   verifyToken,
   roleGuard(["Admin", "Hospital"]),
@@ -93,24 +97,23 @@ router.post(
       });
     }
   },
-)
-
+);
 
 router.get(
-  '/:id',
+  "/:id",
   verifyToken,
   roleGuard(["Admin", "Hospital"]),
   async (req, res) => {
     try {
       const { id } = req.params;
 
-    //   //  Validate ID format (important)
-    //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-    //     return res.status(400).json({
-    //       success: false,
-    //       message: "Invalid request ID",
-    //     });
-    //   }
+      //   //  Validate ID format (important)
+      //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       message: "Invalid request ID",
+      //     });
+      //   }
 
       const request = await RequestLog.findById(id);
 
@@ -137,7 +140,6 @@ router.get(
         success: true,
         data: request,
       });
-
     } catch (err) {
       console.error(err);
       res.status(500).json({
@@ -145,11 +147,11 @@ router.get(
         message: err.message,
       });
     }
-  }
+  },
 );
 
 router.put(
-  '/:id',
+  "/:id",
   verifyToken,
   roleGuard(["Admin", "Hospital"]),
   async (req, res) => {
@@ -157,13 +159,13 @@ router.put(
       const { id } = req.params;
       const { status, fulfilledQuantity } = req.body;
 
-    //   //  Validate ID
-    //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-    //     return res.status(400).json({
-    //       success: false,
-    //       message: "Invalid request ID",
-    //     });
-    //   }
+      //   //  Validate ID
+      //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       message: "Invalid request ID",
+      //     });
+      //   }
 
       const request = await RequestLog.findById(id);
 
@@ -219,7 +221,6 @@ router.put(
         success: true,
         data: request,
       });
-
     } catch (err) {
       console.error(err);
       res.status(500).json({
@@ -227,23 +228,23 @@ router.put(
         message: err.message,
       });
     }
-  }
+  },
 );
 
 router.delete(
-  '/:id',
+  "/:id",
   verifyToken,
   roleGuard(["Admin", "Hospital"]),
   async (req, res) => {
     try {
       const { id } = req.params;
 
-    //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-    //     return res.status(400).json({
-    //       success: false,
-    //       message: "Invalid request ID",
-    //     });
-    //   }
+      //   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       message: "Invalid request ID",
+      //     });
+      //   }
 
       const request = await RequestLog.findById(id);
 
@@ -281,7 +282,6 @@ router.delete(
         message: "Request cancelled successfully",
         data: request,
       });
-
     } catch (err) {
       console.error(err);
       res.status(500).json({
@@ -289,5 +289,7 @@ router.delete(
         message: err.message,
       });
     }
-  }
+  },
 );
+
+module.exports = router;

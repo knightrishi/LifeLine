@@ -1,0 +1,23 @@
+Created interview_prep.md
+
+I have created an artifact file for you, which you can view right here: [interview_prep.md](file:///C:/Users/arnav/.gemini/antigravity/brain/51f55937-2894-43f2-9545-29055e8ad639/interview_prep.md).
+
+It contains a curated list of questions your interviewer may ask, separated into three main categories. Crucially, I have provided structured, tailored answers referencing the actual technical choices and code mechanisms currently inside your LIFE LINE project!
+
+Here is a quick overview of what the questionnaire covers:
+
+### **1. Architecture & Tech Choices**
+- It covers how to explain your use of **React**, **Vite**, **Express**, and **MongoDB**.
+- It helps you articulate why you used a **Client-Server architecture** and how you implemented Software Principles like **MVC**, **Separation of Concerns**, and **DRY** (like your reusable `roleGuard.js` middleware).
+
+### **2. The Database & The India Context**
+- It explains how to verbally justify your Indian demographic database modeling (`pincode`, `district`, `cityOrVillage`).
+- Most importantly, it gives you the exact terminology to describe the geolocation matching: how you leverage **GeoJSON Points**, the **`2dsphere` index**, and MongoDB's highly efficient **`$geoNear` aggregation** rather than relying on heavy manual math filtering in Node.js.
+
+### **3. Critical Features and Edge Cases**
+This section shows the interviewer that you think about extreme scenarios:
+- **The 56-day cooldown rule:** How you elegantly handled this automatically using Mongoose's `pre('save')` hooks rather than trusting the frontend.
+- **Accidental Deletions:** How your `status` flags (0, 1, 2) preserve historical logs.
+- **Data Validation & Security:** How your robust Mongoose schemas paired with `bcryptjs` and role-based access tokens block bad data and security breaches.
+
+Have a read through the document, and let me know if you would like me to add questions regarding any other specific feature or if you'd like to do a mock interview drill where I ask you these questions one by one!

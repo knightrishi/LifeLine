@@ -13,7 +13,7 @@ const donorRoutes = require("./routes/donor.routes.js")
 const hospitalRoutes = require("./routes/hospital.routes.js")
 const bloodBankRoutes  = require("./routes/bloodbank.routes.js")
 const employeeRoutes   = require("./routes/employee.routes.js")
-
+const requestRoute=require('./routes/requestlog.routes.js')
 
 
 
@@ -49,7 +49,7 @@ app.use("/api/donor", donorRoutes)
 app.use("/api/hospital", hospitalRoutes)
 app.use("/api/bloodbank",  bloodBankRoutes)
 app.use("/api/employee",   employeeRoutes)
-
+app.use("/api/request", requestRoute)
 
 
 

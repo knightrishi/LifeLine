@@ -81,10 +81,7 @@ donorSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // ── Geo index for location-based donor search ─────
-donorSchema.index(
-    { "location.coordinates": "2dsphere" },
-    { sparse: true }
-);
+donorSchema.index({ location: "2dsphere" });
 
 const Donor = mongoose.model("Donor", donorSchema);
 module.exports = Donor;

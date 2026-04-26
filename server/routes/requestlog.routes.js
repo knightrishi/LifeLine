@@ -50,13 +50,6 @@ router.post(
       });
 
 
-      // TEMP TEST
-await sendEmail({
-  to: "your_email@gmail.com",
-  subject: "Test Email",
-  text: "Hello from LifeLine"
-});
-
 
       const matchedDonors = await matchService(request);
       await alertService(matchedDonors, request);

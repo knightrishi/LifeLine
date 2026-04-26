@@ -4,6 +4,8 @@ const RequestLog = require("../models/RequestLog");
 const verifyToken = require("../middleware/verifyToken");
 const roleGuard = require("../middleware/roleGuard");
 const matchService = require("../services/matchService");
+const alertService = require("../services/alertService");
+const sendEmail = require("../utils/sendEmail");
 router.post(
   "/",
   verifyToken,
@@ -47,8 +49,17 @@ router.post(
         neededBy,
       });
 
-      const matchedDonors = await matchService(request);
 
+      // TEMP TEST
+await sendEmail({
+  to: "your_email@gmail.com",
+  subject: "Test Email",
+  text: "Hello from LifeLine"
+});
+
+
+      const matchedDonors = await matchService(request);
+      await alertService(matchedDonors, request);
       res.status(201).json({
         success: true,
         data: request,

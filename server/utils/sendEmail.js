@@ -22,7 +22,7 @@ const transporter=nodemailer.createTransport({
         console.log(`Email sent to ${to}`);
     } catch (error) {
         console.error("Email sending failed:", error);
-        throw new Error("Email could not be sent");
+        throw new Error("Email sending failed: " + error.message);
     }
 }
 
